@@ -16,14 +16,14 @@ impl error::Error for NotEnoughArgsError {
         "引数が不足しています"
     }
 
-    fn cause(&self) -> Option<&error::Error> {
+    fn cause(&self) -> Option<&dyn error::Error> {
         None
     }
 }
 
-fn double_arg(mut argv: env::Args) -> Result<i32, Box<error::Error>> {
-    let number_str = try!(argv.nth(1).ok_or(NotEnoughArgsError));
-    let n = try!(number_str.parse::<i32>());
+fn double_arg(mut argv: env::Args) -> Result<i32, Box<dyn error::Error>> {
+    let number_str = r#try!(argv.nth(1).ok_or(NotEnoughArgsError));
+    let n = r#try!(number_str.parse::<i32>());
     Ok(2 * n)
 }
 
