@@ -6,7 +6,7 @@ use std::fmt;
 struct NotEnoughArgsError;
 
 impl fmt::Display for NotEnoughArgsError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "引数が不足しています")
     }
 }
@@ -22,8 +22,8 @@ impl error::Error for NotEnoughArgsError {
 }
 
 fn double_arg(mut argv: env::Args) -> Result<i32, Box<dyn error::Error>> {
-    let number_str = r#try!(argv.nth(1).ok_or(NotEnoughArgsError));
-    let n = r#try!(number_str.parse::<i32>());
+    let number_str = (argv.nth(1).ok_or(NotEnoughArgsError))?;
+    let n = (number_str.parse::<i32>())?;
     Ok(2 * n)
 }
 
