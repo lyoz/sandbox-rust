@@ -1,13 +1,30 @@
-pub fn sort<T>(x: &mut [T], up: bool) {
-  unimplemented!()
+pub fn sort<T: Ord>(x: &mut [T], up: bool) {
+  if x.len() > 1 {
+    let mid_point = x.len() / 2;
+    sort(&mut x[..mid_point], true);
+    sort(&mut x[mid_point..], false);
+    sub_sort(x, up);
+  }
 }
 
-fn sub_sort<T>(x: &mut [T], up: bool) {
-  unimplemented!()
+fn sub_sort<T: Ord>(x: &mut [T], up: bool) {
+  if x.len() > 1 {
+    compare_and_swap(x, up);
+    let mid_point = x.len() / 2;
+    sub_sort(&mut x[..mid_point], up);
+    sub_sort(&mut x[mid_point..], up);
+  }
 }
 
-fn compare_and_swap<T>(x: &mut [T], up: bool) {
-  unimplemented!()
+fn compare_and_swap<T: Ord>(x: &mut [T], up: bool) {
+  if x.len() > 1 {
+    let mid_point = x.len() / 2;
+    for i in 0..mid_point {
+      if (x[i] > x[mid_point + i]) == up {
+        x.swap(i, mid_point + i);
+      }
+    }
+  }
 }
 
 #[cfg(test)]
@@ -30,15 +47,21 @@ mod tests {
 
   #[test]
   fn sort_str_ascending() {
-    let mut x = vec!["Rust", "is", "fast", "and", "memory-efficient"];
+    let mut x = vec!["Rust", "is", "fast", "and", "memory", "efficient", ".", "."];
     sort(&mut x, true);
-    assert_eq!(x, vec!["Rust", "and", "fast", "is", "memory-efficient"]);
+    assert_eq!(
+      x,
+      vec![".", ".", "Rust", "and", "efficient", "fast", "is", "memory"]
+    );
   }
 
   #[test]
   fn sort_str_descending() {
-    let mut x = vec!["Rust", "is", "fast", "and", "memory-efficient"];
-    sort(&mut x, true);
-    assert_eq!(x, vec!["memory-efficient", "is", "fast", "and", "Rust"]);
+    let mut x = vec!["Rust", "is", "fast", "and", "memory", "efficient", ".", "."];
+    sort(&mut x, false);
+    assert_eq!(
+      x,
+      vec!["memory", "is", "fast", "efficient", "and", "Rust", ".", "."]
+    );
   }
 }
