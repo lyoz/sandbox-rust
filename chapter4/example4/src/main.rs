@@ -49,8 +49,23 @@ fn test_integer() {
     assert_eq!(n6, 65u8);
 }
 
+fn test_overflow() {
+    println!("# test_overflow()");
+
+    let n1 = 200u8;
+    let n2 = 3u8;
+
+    // n1*n2=600はオーバーフローする
+
+    assert_eq!(n1.checked_mul(n2), None);
+    assert_eq!(n1.saturating_mul(n2), 255);
+    assert_eq!(n1.wrapping_mul(n2), 88); // 600 mod 256 = 88
+    assert_eq!(n1.overflowing_mul(n2), (88, true));
+}
+
 fn main() {
     test_unit();
     test_bool();
     test_integer();
+    test_overflow();
 }
