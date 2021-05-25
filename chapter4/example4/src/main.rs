@@ -63,9 +63,19 @@ fn test_overflow() {
     assert_eq!(n1.overflowing_mul(n2), (88, true));
 }
 
+fn test_float() {
+    println!("# test_float()");
+
+    let f1 = 10.0; // f64(デフォルトの型)
+    let f2 = -1_234.56f32; // f32(suffixで型を明示)
+    let f3 = 578.6E+77; // f64(指数部を指定)
+    println!("{} {} {}", f1, f2, f3);
+}
+
 fn main() {
     test_unit();
     test_bool();
     test_integer();
     test_overflow();
+    test_float();
 }
