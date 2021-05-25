@@ -72,10 +72,38 @@ fn test_float() {
     println!("{} {} {}", f1, f2, f3);
 }
 
+fn test_char() {
+    println!("# test_char()");
+
+    let c1 = 'A';
+    let c2 = 'a';
+    println!("{} {}", c1, c2);
+    assert!(c1 < c2);
+    assert!(c1.is_uppercase());
+
+    let c3 = '0';
+    assert!(c3.is_digit(10));
+
+    let c4 = '\t'; // タブ文字
+    let c5 = '\n'; // 改行文字
+    let c6 = '\''; // シングルクオート
+    let c7 = '\\'; // バックスラッシュ
+    let c8 = '\x7f'; // 8ビットコード
+    println!("{} {} {} {} {}", c4, c5, c6, c7, c8);
+
+    let c9 = '漢';
+    println!("{}", c9);
+
+    let c10 = '\u{5b57}'; // U+5b57(字)
+    let c11 = '\u{1f600}'; // U+1f600(😀)
+    println!("{} {}", c10, c11);
+}
+
 fn main() {
     test_unit();
     test_bool();
     test_integer();
     test_overflow();
     test_float();
+    test_char();
 }
