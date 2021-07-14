@@ -99,6 +99,39 @@ fn test_char() {
     println!("{} {}", c10, c11);
 }
 
+fn f1(mut n: u32) {
+    println!("f1: n={}", n);
+    n = 1;
+    println!("f1: n={}", n);
+}
+
+fn f2(r: &mut u32) {
+    println!("f1: *r={}", *r);
+    *r = 1;
+    println!("f1: *r={}", *r);
+}
+
+fn test_reference() {
+    println!("# test_reference()");
+    let mut n = 0;
+    println!("test_reference: n={}", n);
+    f1(n);
+    println!("test_reference: n={}", n);
+    f2(&mut n);
+    println!("test_reference: n={}", n);
+
+    let c1 = 'A';
+    let c1_ref = &c1;
+    assert_eq!(*c1_ref, 'A');
+
+    let mut n1 = 0;
+    let n1_ref = &mut n1;
+    assert_eq!(*n1_ref, 0);
+    *n1_ref = 123;
+    assert_eq!(*n1_ref, 123);
+    assert_eq!(n1, 123);
+}
+
 fn main() {
     test_unit();
     test_bool();
@@ -106,4 +139,5 @@ fn main() {
     test_overflow();
     test_float();
     test_char();
+    test_reference();
 }
